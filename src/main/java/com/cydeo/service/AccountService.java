@@ -11,6 +11,6 @@ public interface AccountService {
 
     Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId);
 
-    List<Account> listAccount();
+    List<Account> listAllAccount();
 
 }

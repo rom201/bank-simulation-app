@@ -11,12 +11,14 @@ import com.cydeo.repository.AccountRepository;
 import com.cydeo.repository.TransactionRepository;
 import com.cydeo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class TransactionServiceImpl implements TransactionService {
 
     @Value("${under_construction}")
@@ -67,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     private void checkAccountOwnerShip(Account sender, Account receiver) {
 
         if((sender.getAccountType().equals(AccountType.SAVING) || receiver.getAccountType().equals(AccountType.SAVING))
-            && !sender.getId().equals(receiver.getId())){
+            && !sender.getUserId().equals(receiver.getUserId())){
             throw new AccountOwnershipException("Since you are using a savings accounts, sender and receiver userId mast be the same");
 
         }

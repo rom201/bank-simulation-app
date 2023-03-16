@@ -1,5 +1,6 @@
 package com.cydeo.model;
 
+import com.cydeo.emums.AccountStatus;
 import com.cydeo.emums.AccountType;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class Account {
     private AccountType accountType;
     private Date creationDate;
     private Long userId;
+    private AccountStatus accountStatus;
 
 }

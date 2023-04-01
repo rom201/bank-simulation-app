@@ -29,10 +29,5 @@ public class AccountRepository {
 
         return accountList.stream().filter(p->p.getId().equals(id))
                 .findAny().orElseThrow(()->new RecordNotFoundException("Account not exist in the database."));
-
-
-
-
-
     }
 }

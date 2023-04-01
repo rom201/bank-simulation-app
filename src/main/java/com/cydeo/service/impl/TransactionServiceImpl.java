@@ -105,10 +105,9 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findAll();
     }
 
+    @Override
+    public List<Transaction> last10transactions() {
 
-
-
-
-
-
+        return transactionRepository.findLast10Transactions();
+    }
 }

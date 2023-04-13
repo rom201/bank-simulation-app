@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 @Controller
 public class AccountController {
 
@@ -43,11 +45,14 @@ public class AccountController {
     //create method to capture information from UI,
 
     @PostMapping("/create")
-    public String createAccount(@ModelAttribute("account") Account account){
-//print them on the console.
-        //trigger createAccount method, create the account based on user input.
-        accountService.createNewAccount(account.getBalance(), new Date(), account.getAccountType(), account.getUserId());
+    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult, Model model){
 
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("accountTypes", AccountType.values());
+            return "account/create-account";
+        }
+        accountService.createNewAccount(account.getBalance(), new Date(), account.getAccountType(), account.getUserId());
         return "redirect:/index"; //just go to next end point and do not need repeat
     }
 

@@ -12,7 +12,11 @@ import java.util.UUID;
 public class Transaction {
     private UUID sender;
     private UUID receiver;
+
+
     private BigDecimal amount;
+
+
     private String message;
 
     private Date creationDate;

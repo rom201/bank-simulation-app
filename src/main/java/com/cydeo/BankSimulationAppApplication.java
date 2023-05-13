@@ -1,15 +1,12 @@
 package com.cydeo;
 
-import com.cydeo.emums.AccountType;
-import com.cydeo.model.Account;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-
-import java.math.BigDecimal;
-import java.util.Date;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BankSimulationAppApplication {
@@ -39,10 +36,11 @@ public class BankSimulationAppApplication {
 //        transactionService.makeTransfer(sender, receiver,new BigDecimal(40),new Date(), "Transaction 2");
 
 
+    }
 
-
-
-
+    @Bean
+    public ModelMapper mapper(){
+        return new ModelMapper();
     }
 
 }

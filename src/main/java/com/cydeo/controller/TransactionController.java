@@ -1,8 +1,7 @@
 package com.cydeo.controller;
 
-import com.cydeo.emums.AccountType;
-import com.cydeo.model.Account;
-import com.cydeo.model.Transaction;
+import com.cydeo.dto.AccountDTO;
+import com.cydeo.dto.TransactionDTO;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class TransactionController {
     public String getMakeTransfer(Model model){
 
         //empty transaction object
-        model.addAttribute("transaction", Transaction.builder().build());
+        model.addAttribute("transaction", new TransactionDTO());
 
         //we need all accounts to provide them as sender and receiver
         model.addAttribute("accounts", accountService.listAllAccount());
@@ -46,7 +45,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    public String postMakeTransfer (@Valid @ModelAttribute ("transaction") Transaction transaction, BindingResult bindingResult, Model model){
+    public String postMakeTransfer (@Valid @ModelAttribute ("transaction") TransactionDTO transactionDTO, BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
 
@@ -54,16 +53,16 @@ public class TransactionController {
             return "transaction/make-transfer";
         }
 
-        Account sender = accountService.retrieveById(transaction.getSender());
-        Account receiver = accountService.retrieveById(transaction.getReceiver());
+        AccountDTO sender = accountService.retrieveById(transactionDTO.getSender().getId());
+        AccountDTO receiver = accountService.retrieveById(transactionDTO.getReceiver().getId());
 
-        transactionService.makeTransfer(sender,receiver, transaction.getAmount(), new Date(), transaction.getMessage());
+        transactionService.makeTransfer(sender,receiver, transactionDTO.getAmount(), new Date(), transactionDTO.getMessage());
         return "redirect:/make-transfer";
 
     }
 
     @GetMapping("/transaction/{id}")
-    public String getTransactionList(@PathVariable ("id") UUID id, Model model){
+    public String getTransactionList(@PathVariable ("id") Long id, Model model){
 
         System.out.println(id);
 

@@ -1,6 +1,6 @@
 package com.cydeo.repository;
 
-import com.cydeo.model.Transaction;
+import com.cydeo.dto.TransactionDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,30 +12,30 @@ import java.util.stream.Collectors;
 @Component
 public class TransactionRepository {
 
-    public static List<Transaction> transactionList = new ArrayList<>();
-    public Transaction save (Transaction transaction){
-        transactionList.add(transaction);
-        return transaction;
+    public static List<TransactionDTO> transactionDTOList = new ArrayList<>();
+    public TransactionDTO save (TransactionDTO transactionDTO){
+        transactionDTOList.add(transactionDTO);
+        return transactionDTO;
 
     }
 
 
-    public List<Transaction> findAll() {
-        return transactionList;
+    public List<TransactionDTO> findAll() {
+        return transactionDTOList;
     }
 // all work with DB and getting data will be created in repository
-    public List<Transaction> findLast10Transactions() {
+    public List<TransactionDTO> findLast10Transactions() {
 
-        return transactionList.stream()
-                .sorted(Comparator.comparing(Transaction::getCreationDate).reversed())
+        return transactionDTOList.stream()
+                .sorted(Comparator.comparing(TransactionDTO::getCreationDate).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
 
     }
 
-    public List<Transaction> findTransactonListById(UUID id) {
+    public List<TransactionDTO> findTransactionListById(Long id) {
 
-        return transactionList.stream()
+        return transactionDTOList.stream()
                 .filter(p->p.getSender().equals(id) || p.getReceiver().equals(id))
                 .collect(Collectors.toList());
 

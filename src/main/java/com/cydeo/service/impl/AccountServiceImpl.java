@@ -29,16 +29,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
-        //create Account
-        AccountDTO accountDTO = new AccountDTO();
+    public void createNewAccount(AccountDTO accountDTO) {
 
-        //saving in DB , you need save
-        //return for method
-        return accountRepository.save(accountDTO);
+        accountDTO.setAccountStatus(AccountStatus.ACTIVE);
+        accountDTO.setCreationDate(new Date());
 
+        accountRepository.save(accountMapper.convertToEntity(accountDTO));
 
     }
+
 
     @Override
     public List<AccountDTO> listAllAccount() {

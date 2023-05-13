@@ -50,7 +50,7 @@ public class AccountController {
             model.addAttribute("accountTypes", AccountType.values());
             return "account/create-account";
         }
-        accountService.createNewAccount(accountDTO.getBalance(), new Date(), accountDTO.getAccountType(), accountDTO.getUserId());
+        accountService.createNewAccount(accountDTO);
         return "redirect:/index"; //just go to next end point and do not need repeat
     }
 

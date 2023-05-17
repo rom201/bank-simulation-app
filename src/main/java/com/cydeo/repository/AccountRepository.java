@@ -1,6 +1,7 @@
 package com.cydeo.repository;
 
 import com.cydeo.dto.AccountDTO;
+import com.cydeo.emums.AccountStatus;
 import com.cydeo.entity.Account;
 import com.cydeo.exception.RecordNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-
+        List<Account> findAllByAccountStatus(AccountStatus accountStatus);
 
 
 

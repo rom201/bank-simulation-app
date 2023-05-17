@@ -49,20 +49,38 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(Long id) {
 
-        AccountDTO accountDTO = accountRepository.findById(id);
-        accountDTO.setAccountStatus(AccountStatus.DELETED);
+
+        Account account = accountRepository.findById(id).get();
+
+        account.setAccountStatus(AccountStatus.DELETED);
+
+        accountRepository.save(account);
 
     }
 
     @Override
     public void activateAccount(Long id) {
-        AccountDTO accountDTO = accountRepository.findById(id);
-        accountDTO.setAccountStatus(AccountStatus.ACTIVE);
+
+        Account account = accountRepository.findById(id).get();
+
+        account.setAccountStatus(AccountStatus.ACTIVE);
+
+        accountRepository.save(account);
+
     }
 
     @Override
     public AccountDTO retrieveById(Long id) {
 
-        return accountRepository.findById(id);
+        return accountMapper.convertToDTO(accountRepository.findById(id).get());
     }
+
+    @Override
+    public List<AccountDTO> listAllActiveAccounts() {
+
+        List<Account> listActiveAccounts = accountRepository.findAllByAccountStatus(AccountStatus.ACTIVE);
+        return listActiveAccounts.stream().map(accountMapper::convertToDTO).collect(Collectors.toList());
+    }
+
+
 }

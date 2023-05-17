@@ -1,5 +1,9 @@
 package com.cydeo.mapper;
 
+import com.cydeo.dto.AccountDTO;
+import com.cydeo.dto.TransactionDTO;
+import com.cydeo.entity.Account;
+import com.cydeo.entity.Transaction;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +17,13 @@ public class TransactionMapper {
     }
 
     //2 methods
+    public TransactionDTO convertToDTO (Transaction entity){
+        return modelMapper.map(entity, TransactionDTO.class);
+    }
 
+    public Transaction convertToEntity (TransactionDTO dto){
+        return modelMapper.map(dto, Transaction.class);
+    }
 
 
 

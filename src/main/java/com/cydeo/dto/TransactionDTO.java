@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class TransactionDTO {
 
+
     @NotNull
     private AccountDTO sender;
     @NotNull

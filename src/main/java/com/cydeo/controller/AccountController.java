@@ -33,7 +33,7 @@ public class AccountController {
     public String getCreateForm(Model model){
 
         //empty account object provided
-        model.addAttribute("account", new AccountDTO());
+        model.addAttribute("accountDTO", new AccountDTO());
         //account type enum needs to fill dropdown
         model.addAttribute("accountTypes", AccountType.values());
 
@@ -43,7 +43,7 @@ public class AccountController {
     //create method to capture information from UI,
 
     @PostMapping("/create")
-    public String createAccount(@Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult, Model model){
+    public String createAccount(@Valid @ModelAttribute("accountDTO") AccountDTO accountDTO, BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
 

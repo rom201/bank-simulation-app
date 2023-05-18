@@ -32,10 +32,10 @@ public class TransactionController {
     public String getMakeTransfer(Model model){
 
         //empty transaction object
-        model.addAttribute("transaction", new TransactionDTO());
+        model.addAttribute("transactionDTO", new TransactionDTO());
 
         //we need all accounts to provide them as sender and receiver
-        model.addAttribute("accounts", accountService.listAllAccount());
+        model.addAttribute("accounts", accountService.listAllActiveAccounts());
 
         // need list of transaction 10 for table
         model.addAttribute("lastTransactions", transactionService.last10transactions());
@@ -45,7 +45,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    public String postMakeTransfer (@Valid @ModelAttribute ("transaction") TransactionDTO transactionDTO, BindingResult bindingResult, Model model){
+    public String postMakeTransfer (@Valid @ModelAttribute ("transactionDTO") TransactionDTO transactionDTO, BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
 
@@ -65,8 +65,6 @@ public class TransactionController {
     public String getTransactionList(@PathVariable ("id") Long id, Model model){
 
         System.out.println(id);
-
-
 
         model.addAttribute("transactions", transactionService.listTransactionListBiID(id));
 

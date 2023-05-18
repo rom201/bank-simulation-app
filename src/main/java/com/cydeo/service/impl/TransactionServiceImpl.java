@@ -29,7 +29,6 @@ public class TransactionServiceImpl implements TransactionService {
     private boolean underConstruction;
 //    private final AccountRepository accountRepository;
 
-
     private final AccountService accountService;
     private final TransactionRepository transactionRepository;
 
@@ -52,9 +51,10 @@ public class TransactionServiceImpl implements TransactionService {
         /*
         after validations, we need create transfer object
          */
-            TransactionDTO transactionDTO = new TransactionDTO();
+            TransactionDTO transactionDTO = new TransactionDTO(sender,receiver,amount,message,creationDate);
+            transactionRepository.save(transactionMapper.convertToEntity(transactionDTO));
+            return transactionDTO;
 
-            return transactionRepository.save(transactionDTO);
         }else{
             throw new UnderConstructionException("App is under construction, try again later.");
         }
@@ -65,6 +65,15 @@ public class TransactionServiceImpl implements TransactionService {
         if(checkSenderBalance(sender, amount)){
             sender.setBalance(sender.getBalance().subtract(amount));
             receiver.setBalance(receiver.getBalance().add(amount));
+
+            AccountDTO senderAcc = accountService.retrieveById(sender.getId());
+            senderAcc.setBalance(sender.getBalance());
+            accountService.updateAccount(senderAcc);
+
+            AccountDTO receiverAcc = accountService.retrieveById(receiver.getId());
+            receiverAcc.setBalance(receiver.getBalance());
+            accountService.updateAccount(receiverAcc);
+
         }else{
             throw new BalanceNotSufficientException("Balance is not enough for this transfer.");
         }
@@ -103,8 +112,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-    private void findAccountById(Long id) {
-        accountRepository.findById(id);
+    private AccountDTO findAccountById(Long id) {
+        return accountService.retrieveById(id);
 
 
     }
@@ -118,12 +127,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> last10transactions() {
 
-
-        return transactionRepository.findLast10Transactions();
+        return transactionRepository.findLast10Transactions().stream().map(transactionMapper::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> listTransactionListBiID(Long id) {
-        return transactionRepository.findTransactionListById(id);
+
+        return transactionRepository.findTransactionListById(id).stream().map(transactionMapper::convertToDTO).collect(Collectors.toList());
     }
 }

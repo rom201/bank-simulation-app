@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
 
-    @Query(value  ="SELECT * FROM transactions ORDER BY creation_Date DESC LIMIT 10", nativeQuery = true)
+    @Query(value  ="SELECT * FROM transactions ORDER BY creation_date DESC LIMIT 10", nativeQuery = true)
     List<Transaction> findLast10Transactions ();
 
 
     @Query("select t from Transaction t where t.sender.id = ?1 OR t.receiver.id = ?1")
-    Optional<Transaction> findTransactionListById(@Param("id") Long id);
+    List<Transaction> findTransactionListById(@Param("id") Long id);
 
 
 
